@@ -48,7 +48,7 @@ ct_Bsq = 1
 
 # Time for simulation
 T = 100
-t = np.linspace(0, T, N)
+t = np.linspace(T, 0, N)
 
 def dy_dt(y, t):
     return np.array([
@@ -86,9 +86,9 @@ with open("transform.csv", "w") as outfile:
                     ])
 
 
-#            print "Entering for", theta_cs, phi_cs
+            print "Entering for", theta_cs, phi_cs
             result = odeint(dy_dt, y0, t)
-#            print "Exit with", result[-1][1], result[-1][2]
+            print "Exit with", result[-1][1], result[-1][2]
         
             outfile.write(str(theta_cs) + "," +
                         str(phi_cs) + "," +
@@ -96,7 +96,7 @@ with open("transform.csv", "w") as outfile:
                         str(result[-1][1]) + "," +
                         str(result[-1][1]) + "\n")
             
-            phi_cs = phi_cs + np.pi/30
+            phi_cs = phi_cs + np.pi/180
 
-        theta_cs  = theta_cs + np.pi/30
+        theta_cs  = theta_cs + np.pi/180
 
