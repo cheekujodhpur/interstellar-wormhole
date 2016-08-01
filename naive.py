@@ -61,28 +61,42 @@ def dy_dt(y, t):
 
 
 # Trial simulation
-theta_cs = np.pi/4
-phi_cs = np.pi/4
+theta_cs = 0.0
+phi_cs = 0.0
 
-# Initial
-l = 4.0
-theta = np.pi/2
-phi = 0
+with open("transform.csv", "w") as outfile:
+    while theta_cs<=np.pi:
+        phi_cs = 0.0
+        while phi_cs <= 2*np.pi:
 
-ct_b = b(r(l), theta_cs, phi_cs, theta)
-ct_Bsq = B_sq(r(l), theta_cs, phi_cs)
+            # Initial
+            l = 1.0
+            theta = np.pi/2
+            phi = 0
 
-y0 = np.array([
-        l,
-        theta,
-        phi,
-        p_l(theta_cs, phi_cs),
-        p_theta(r(l), theta_cs, phi_cs)
-        ])
+            ct_b = b(r(l), theta_cs, phi_cs, theta)
+            ct_Bsq = B_sq(r(l), theta_cs, phi_cs)
+
+            y0 = np.array([
+                    l,
+                    theta,
+                    phi,
+                    p_l(theta_cs, phi_cs),
+                    p_theta(r(l), theta_cs, phi_cs)
+                    ])
 
 
-print "Entering simulation"
-result = odeint(dy_dt, y0, t)
-print "Simulation done"
+#            print "Entering for", theta_cs, phi_cs
+            result = odeint(dy_dt, y0, t)
+#            print "Exit with", result[-1][1], result[-1][2]
+        
+            outfile.write(str(theta_cs) + "," +
+                        str(phi_cs) + "," +
+                        str(result[-1][0]) + "," +
+                        str(result[-1][1]) + "," +
+                        str(result[-1][1]) + "\n")
+            
+            phi_cs = phi_cs + np.pi/30
 
-print result[-1]
+        theta_cs  = theta_cs + np.pi/30
+
